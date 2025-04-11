@@ -17,7 +17,7 @@
 ```
 
 ### 예시
-```bash
+```markdown
 feat(autoscaler): add HPA and metrics-server manifests
 fix(containerd): correct cgroup setting for systemd
 ```
@@ -105,7 +105,7 @@ asdfasdf
 
 ---
 
-## 📎 권장 사용 도구
+## 권장 사용 도구
 - [commitizen](https://github.com/commitizen/cz-cli): 커밋 메시지 작성 인터페이스
 - [husky + lint-staged](https://typicode.github.io/husky/): 커밋 전에 검사 자동화
 - [semantic-release](https://semantic-release.gitbook.io/semantic-release/): 버전 관리 자동화 (선택)
