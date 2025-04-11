@@ -1,0 +1,61 @@
+
+## 중요 구성 요약 및 리소스 사양 정리
+
+### 전체 인프라 구성 요약
+
+| 역할 영역   | 주요 구성 요소                    | 주요 기능                                      |
+|-------------|-----------------------------------|------------------------------------------------|
+| Provisioning | Vagrant + VirtualBox + Ansible    | 초기 VM 생성 + SSH 기반 초기 설정               |
+| IaC         | Terraform                          | VM, 네트워크 등 인프라 정의 및 프로비저닝       |
+| 클러스터    | Kubernetes (kubeadm + containerd) | Control Plane + Worker 구성                    |
+| GitOps      | GitHub + Jenkins + ArgoCD         | CI → GitOps 기반 배포 자동화                   |
+| 보안/비밀   | Vault + K8s Injector               | Secrets 주입 및 안전한 인증 관리               |
+| 관측성      | Prometheus + Grafana              | 모니터링 및 시각화                             |
+
+---
+
+### 리소스별 구성 및 사양 (예정)
+
+| VM 이름         | 역할           | 고정 IP       | vCPU | RAM   | 디스크 | 소속 대역        |
+|------------------|----------------|----------------|------|-------|--------|------------------|
+| `ansible-node`   | DevOps/Control | `10.1.0.10`    | 2    | 2GB   | 20GB   | `10.1.0.0/16`    |
+| `master-01`      | K8s Master     | `10.2.0.11`    | 2    | 4GB   | 30GB   | `10.2.0.0/16`    |
+| `master-02`      | K8s Master     | `10.2.0.12`    | 2    | 4GB   | 30GB   | `10.2.0.0/16`    |
+| `worker-01~03`   | K8s Worker     | `10.2.0.21~23` | 2    | 2~4GB | 30GB   | `10.2.0.0/16`    |
+| `vault`          | Secret Vault   | `10.4.0.10`    | 2    | 2GB   | 10GB   | `10.4.0.0/16`    |
+| `grafana`        | Monitoring     | `10.3.0.10`    | 2    | 2GB   | 10GB   | `10.3.0.0/16`    |
+| `jenkins`        | CI             | `10.1.0.20`    | 2    | 2GB   | 20GB   | `10.1.0.0/16`    |
+| `argocd`         | GitOps CD      | `10.1.0.30`    | 2    | 2GB   | 10GB   | `10.1.0.0/16`    |
+
+---
+
+### 네트워크 설계 (CIDR 기준)
+
+| 역할별 구분       | 서브넷 CIDR     | 설명                         |
+|--------------------|------------------|------------------------------|
+| DevOps (관리 영역) | `10.1.0.0/16`    | Ansible, Jenkins, ArgoCD 등 |
+| Service (K8s)      | `10.2.0.0/16`    | master, worker               |
+| Monitoring         | `10.3.0.0/16`    | Grafana, Prometheus          |
+| Security           | `10.4.0.0/16`    | Vault, secrets               |
+
+---
+
+### 인증 및 Secret 관리 흐름
+
+- Vault는 Kubernetes 인증 방식 사용 (`ServiceAccount Token`)
+- Vault Agent Injector로 Pod 내에 secrets 주입
+- Jenkins 또는 ArgoCD도 Vault API를 통해 secret pull 가능
+- Root 로그인 금지 + SSH 공개키 기반 로그인만 허용
+
+---
+
+### 구성 흐름 요약 (실행 순서 기준)
+
+```
+1. Vagrant → ansible-node 생성 (NAT + 고정IP)
+2. Ansible → Terraform 설치 + GitHub clone
+3. Terraform → VirtualBox에 VM들 정의 및 생성
+4. Ansible → 초기화 플레이북 실행 (containerd, SSH, kubeadm 등)
+5. GitHub + Jenkins + ArgoCD 연결 (CI/CD 자동화)
+6. Vault/K8s 연동 + Prometheus/Grafana 구성
+```
