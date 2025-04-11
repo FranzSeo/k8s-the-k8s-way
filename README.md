@@ -1,9 +1,6 @@
 # k8s-the-k8s-way
 Dreaming of full automation of k8s
 
-
-# k8s-the-k8s-way
-
 > 로컬 환경에서 Kubernetes를 Kubernetes답게 운영하기 위한 실전형 클러스터 설계 및 자동화 프로젝트
 
 ---
@@ -40,7 +37,7 @@ Dreaming of full automation of k8s
 ---
 
 ## 디렉토리 구조 (예정)
-
+```
 k8s-the-k8s-way/ 
   ├── ansible/ # OS & K8s 설치 자동화 
   ├── manifests/ # kubeadm, Calico, Ingress 등 YAML 
@@ -49,7 +46,7 @@ k8s-the-k8s-way/
   ├── monitoring/ # Prometheus/Grafana/Loki 구성 
   ├── docs/ # 설계 문서 및 운영 가이드 
   └── README.md
-
+```
 ## 목표
 
 - kubeadm 기반 고가용성 K8s 클러스터 구축 자동화
