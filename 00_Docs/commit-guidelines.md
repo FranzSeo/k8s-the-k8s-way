@@ -25,7 +25,7 @@ fix(containerd): correct cgroup setting for systemd
 ---
 
 ## Type 목록
-```
+
 | 타입      | 설명                                  |
 |-----------|---------------------------------------|
 | `feat`    | 새로운 기능 추가                      |
@@ -39,7 +39,7 @@ fix(containerd): correct cgroup setting for systemd
 | `ci`      | CI/CD 구성 파일 또는 스크립트 수정     |
 | `chore`   | 기타 변경사항 (빌드 제외 설정 등)      |
 | `revert`  | 이전 커밋 되돌리기                    |
-```
+
 > **소문자 사용, 마침표 금지**, 제목은 50자 이내로 간결하게 작성
 
 ---
