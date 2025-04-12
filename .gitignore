@@ -1,0 +1,31 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Vagrant
+.vagrant/
+*.box
+
+# Ansible
+*.retry
+*.log
+inventory/*_host.ini
+
+# General
+*.swp
+*.bak
+.DS_Store
+__pycache__/
+*.pyc
+
+# VSCode or JetBrains IDEs
+.vscode/
+.idea/
+
+# Secrets (if accidentally generated)
+secrets.yml
+*.key
+*.crt
+*.pem
+
